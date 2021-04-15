@@ -12,7 +12,7 @@
 
                 <hr>
 
-                <form method="POST" action="/posts/">
+                <form method="POST" action="/dashboard/posts/">
                     @csrf
                     <div class="row">
                         <div class="control-group col-12">

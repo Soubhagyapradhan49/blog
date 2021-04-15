@@ -5,17 +5,19 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogPostController;
 use App\Http\Controllers\CommentController;
+use App\Models\BlogPost;
 
 Route::get('/', function () {
+
+
     return view('welcome');
 });
-Route::resource('/posts', BlogPostController::class);
-Route::post('/posts/{post}/comment', [BlogPostController::class, "storeComment"]);
-Route::get('/posts/{post}/comment', [BlogPostController::class, "showComment"]);
+Route::resource('/dashboard/posts', BlogPostController::class);
+Route::post('/dashboard/posts/{post}/comment', [BlogPostController::class, "storeComment"]);
+Route::get('/dashboard/posts/{post}/comment', [BlogPostController::class, "showComment"]);
+Route::resource('/dashboard/categories', Categorycontroller::class);
 
-Route::resource('/categories', Categorycontroller::class);
-
-Route::get('/catposts/{id}', [BlogPostController::class, 'showcate']);
+Route::get('/dashboard/catposts/{id}', [BlogPostController::class, 'showcate']);
 
 
 

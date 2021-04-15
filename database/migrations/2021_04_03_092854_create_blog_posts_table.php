@@ -21,7 +21,7 @@ class CreateBlogPostsTable extends Migration
             $table->text('body'); 
             $table->string('image');
             $table->integer('category_id');
-        
+            $table->string('user_id');
             $table->timestamps();
            
            

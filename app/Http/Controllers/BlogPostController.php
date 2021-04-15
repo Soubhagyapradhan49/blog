@@ -3,18 +3,67 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\CommentNotify;
 
 use App\Http\Controllers\Controller;
 use App\Models\BlogPost;
+
 use Illuminate\Support\Facades\Storage;
 use App\Models\User;
 use App\Models\Category;
 use App\Models\Comment;
+
 use Illuminate\Support\Facades\DB;
 
 
 class BlogPostController extends Controller
 {
+  
+
+  public function storeComment(Request $request, $blog_post_id)
+  {
+      $post = Comment::create([
+          'post_id' => $blog_post_id,
+          'user_name' => auth()->user()->name,
+          'message' => $request->message,
+      ]);
+
+      $user = User::where('id',$request->user_id)->first();
+
+      $data =  BlogPost::find($request->id);  
+      $name = auth()->user()->name;
+      $title = $data->title;
+         $details = [
+            
+          'greeting' => $name,
+          'hello'=>'hello',
+          'text'=>'you commented on',
+
+          'body' => $title,
+
+          'thanks' => 'Thank you for comments!',
+      ];
+
+      Notification::send($user, new CommentNotify($details));
+     return redirect()->back();
+
+  }
+
+
+
+
+
+  public function showComment($blog_post_id)
+  {
+      $comments = Comment::where('post_id', $blog_post_id)->get();
+      return print_r($comments);
+  }
+
+
+
+
+   
 
     public function index()
     {
@@ -23,39 +72,6 @@ class BlogPostController extends Controller
         $blog_posts = BlogPost::with('category')->get();
         return view('index', compact('blog_posts'), compact('categories'));
     }
-
-    public function showcate($id)
-    {
-        $catview = BlogPost::where('category_id', $id)->get();
-
-        
-        return view('catpostview' ,compact('catview'));
-    }
-
-    public function storeComment(Request $request,$blog_post_id){
-        $post= Comment::create([
-            'post_id'=>$blog_post_id,
-            'message'=> $request->message,
-           ]);
-           return redirect()->back();
-
-    }
-    public function showComment($blog_post_id){
-        $comments=Comment::where('post_id',$blog_post_id)->get();
-        return print_r($comments);
-
-    }
-
-    public function search()
-    {
-        $search = $_GET('query');
-        $blog_posts = BlogPost::where('title', 'LIKE', '%' . $search . '%')->with('category')->get();
-        return view('search', compact('blog_posts'));
-    }
-
-
-
-
 
     public function create()
     {
@@ -83,7 +99,8 @@ class BlogPostController extends Controller
             'title' => $request->title,
             'body' => $request->body,
             'image' => $imageName,
-            'category_id' => $request->category_id
+            'category_id' => $request->category_id,
+            'user_id' => auth()->user()->id,
 
 
         ]);
@@ -95,12 +112,10 @@ class BlogPostController extends Controller
     public function show($id)
     {
 
-       
-   
         $post = BlogPost::where('id', $id)->first();
-        $comments=Comment::where('post_id',$id)->get();
-        
-        return view('show',['post' =>$post,'comments'=> $comments]);
+        $comments = Comment::where('post_id', $id)->get();
+
+        return view('show', ['post' => $post, 'comments' => $comments]);
     }
     public function edit($id)
     {
@@ -123,5 +138,30 @@ class BlogPostController extends Controller
 
         BlogPost::where('id', $id)->delete();
         return redirect()->back();
+    }
+
+
+  
+    //==================================endComment=====================================================
+
+    //categoy
+    //=======================
+
+    public function showcate($id)
+    {
+        $catview = BlogPost::where('category_id', $id)->get();
+
+
+        return view('catpostview', compact('catview'));
+    }
+    //end cat
+    //===================
+
+
+    public function search()
+    {
+        $search = $_GET('query');
+        $blog_posts = BlogPost::where('title', 'LIKE', '%' . $search . '%')->with('category')->get();
+        return view('search', compact('blog_posts'));
     }
 }

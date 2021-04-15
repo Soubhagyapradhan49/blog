@@ -12,7 +12,7 @@
 
                 <hr>
 
-                <form method="POST" action="/posts" enctype='multipart/form-data'>
+                <form method="POST" action="/dashboard/posts" enctype='multipart/form-data'>
                     @csrf
                     <div class="row">
                         <div class="control-group col-12">

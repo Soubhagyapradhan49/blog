@@ -8,7 +8,7 @@
 @foreach ($categories as $category)
 
 <h2>{{$category->name}}</h2>
-<form method="post" action="/categories/{{$category->id}}">
+<form method="post" action="/dashboard/categories/{{$category->id}}">
     <input type="submit" value="delete" />
     <input type="hidden" name="_method" value="delete" />
     <input type="hidden" name="_token" value="{{ csrf_token() }}">

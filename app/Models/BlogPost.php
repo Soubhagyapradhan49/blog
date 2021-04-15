@@ -11,9 +11,15 @@ class BlogPost extends Model
 {
 
 
-   protected $fillable =['title','body','image','category_id'];
+    protected $guarded = [ ]; 
 
-    protected $table = 'blog_posts';
+
+    public function user(){
+
+        return $this->belongsTo(User::class,'user_id','id');
+    }
+
+
     public function category(){
         return $this->belongsTo(Category::class,'category_id','id');
     }
@@ -23,5 +29,6 @@ class BlogPost extends Model
         return $this->hasMany(Comment::class);
     }
     
+
 }
 

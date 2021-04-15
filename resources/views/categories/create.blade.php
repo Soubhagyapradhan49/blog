@@ -7,11 +7,11 @@
 <div class="container">
     <div class="row">
         <div class="col-12 pt-2">
-            <a href="/categories.index" class="btn btn-outline-primary btn-sm">Go back</a>
+            <a href="/dashboard/categories.index" class="btn btn-outline-primary btn-sm">Go back</a>
             <div class="border rounded mt-5 pl-4 pr-4 pt-4 pb-4">
                 <h1 class="display-4">Create a New Categories</h1>
 
-                <form method="POST" action="/categories" >
+                <form method="POST" action="/dashboard/categories" >
                     @csrf
                     <div class="row">
                         <div class="control-group col-12">
