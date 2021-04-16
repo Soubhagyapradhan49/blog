@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BlogPostController;
-use App\Http\Controllers\CommentController;
-use App\Http\Controllers\CheckoutController;
+
+use App\Http\Controllers\StripeController;
 use App\Models\BlogPost;
 
 
@@ -21,9 +21,8 @@ Route::resource('/dashboard/categories', Categorycontroller::class);
 
 Route::get('/dashboard/catposts/{id}', [BlogPostController::class, 'showcate']);
 
-
-Route::post('/dashboard/checkout', [CheckoutController::class, "checkout"]);
-Route::get('/dashboard/checkout', [CheckoutController::class, "afterpayment"]);
+Route::get('/dashboard/stripe-payment', [StripeController::class, 'handleGet']);
+Route::post('dashboard/stripe-payment', [StripeController::class, 'handlePost'])->name('stripe.payment');
 
 
 

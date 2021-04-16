@@ -11,17 +11,8 @@
                     <blockquote>{{$post->title}}</blockquote>
                     <div class="card-body">
                         <h5 class="card-title">{{$post->body}}</h5>
-                        <button type="button" id="read" onclick="read()">readmore</button>
-                        <script type="text/javascript">
-                            var i = 0;
-
-                            function read() {
-                                if (!i) {
-                                    document.getElementById("more").style.display("inline");
-                                }
-                            }
-                        </script>
-                        <a hre>
+                      
+                        <a >
                             <p style="color: blue;">{{$post->category->name}}</p>
                         </a>
                         <a href="{{ route('posts.edit', ['post'=>$post->id]) }}"> Edit</a>
